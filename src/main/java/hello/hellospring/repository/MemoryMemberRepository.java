@@ -11,7 +11,7 @@ public class MemoryMemberRepository implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        member.setId(++sequence);   // member의 id값을 세팅
+        member.setId(++sequence);   // member의 id값을 세팅 -> 저장 될 때마다 sequence 값 1씩 추가
         store.put(member.getId(), member);  // map에 저장
         return member;
     }
