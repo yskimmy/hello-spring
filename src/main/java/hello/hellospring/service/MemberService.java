@@ -3,14 +3,22 @@ package hello.hellospring.service;
 import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+
 public class MemberService {
 
-    // 이랬는데
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    // test 에서 사용할 때 새로 인스턴스를 생성하면 서로 다른 객체에 대해 test 하는 것이 되므로 아래와 같이 처리해줘야 함
+    private final MemberRepository memberRepository;
+
+
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     /** 회원가입 **/
     public Long join(Member member) {

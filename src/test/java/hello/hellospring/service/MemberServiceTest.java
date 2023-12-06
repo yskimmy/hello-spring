@@ -5,6 +5,7 @@ import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
@@ -13,13 +14,18 @@ import static org.junit.jupiter.api.Assertions.*;
 // 테스트는 각 테스트 별로 순서에 구애받지 않아야 함 => 한 번의 테스트가 끝날 때마다 repository 저장 값이 clear 되는 과정이 필요함!
 class MemberServiceTest {
 
-    // MemberService 클래스 객체 생성
-    MemberService memberService = new MemberService();
-
     // repository 저장 값 clear 를 위한 repository 객체 생성
     // but!!!! Service 쪽에서 만들어진 repository 인스턴스와 test 페이지에서 만든 인스턴스가 다르기 때문에 문제가 발생할 수 있음
-    // 따라서 ~ Service 쪽에 수정을 해줍니닷
-    MemoryMemberRepository memberRepository = new MemoryMemberRepository();
+    // DI!!!!
+
+    MemberService memberService;
+    MemoryMemberRepository memberRepository;
+
+    @BeforeEach
+    public void beforeEach() {
+        memberRepository = new MemoryMemberRepository();
+        memberService = new MemberService(memberRepository);
+    }
 
     @AfterEach
     public void afterEach() {
